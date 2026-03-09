@@ -130,7 +130,7 @@ const Copilot: React.FC = () => {
                     <Card className="bg-gray-900 text-gray-100 font-mono text-sm overflow-x-auto p-0">
                         <div className="p-4">
                             <ReactMarkdown components={{
-                                code({ node, className, children, ...props }) {
+                                code({ className, children, ...props }) {
                                     return <code className={className} {...props}>{children}</code>
                                 }
                             }}>

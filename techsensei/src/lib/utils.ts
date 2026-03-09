@@ -24,26 +24,26 @@ export function formatDate(date: Date): string {
 export function formatRelativeTime(date: Date): string {
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-  
+
   if (diffInSeconds < 60) {
     return 'just now';
   }
-  
+
   const diffInMinutes = Math.floor(diffInSeconds / 60);
   if (diffInMinutes < 60) {
     return `${diffInMinutes} minute${diffInMinutes > 1 ? 's' : ''} ago`;
   }
-  
+
   const diffInHours = Math.floor(diffInMinutes / 60);
   if (diffInHours < 24) {
     return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
   }
-  
+
   const diffInDays = Math.floor(diffInHours / 24);
   if (diffInDays < 7) {
     return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
   }
-  
+
   return formatDate(date);
 }
 
@@ -65,7 +65,7 @@ export function generateId(): string {
 /**
  * Debounce function
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
@@ -98,7 +98,7 @@ export function isValidGitHubUrl(url: string): boolean {
 export function parseGitHubUrl(url: string): { owner: string; repo: string } | null {
   const match = url.match(/^https:\/\/github\.com\/([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)\/?$/);
   if (!match) return null;
-  
+
   return {
     owner: match[1],
     repo: match[2]
@@ -121,14 +121,14 @@ export function formatDuration(minutes: number): string {
   if (minutes < 60) {
     return `${minutes} min`;
   }
-  
+
   const hours = Math.floor(minutes / 60);
   const remainingMinutes = minutes % 60;
-  
+
   if (remainingMinutes === 0) {
     return `${hours} hr`;
   }
-  
+
   return `${hours}h ${remainingMinutes}m`;
 }
 

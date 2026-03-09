@@ -103,7 +103,7 @@ const Sidebar: React.FC = () => {
   const navigate = useNavigate();
 
   const handleNavigate = (view: string, path: string) => {
-    setCurrentView(view);
+    setCurrentView(view as 'dashboard' | 'learn' | 'analyze' | 'knowledge' | 'profile');
     navigate(path);
   };
 

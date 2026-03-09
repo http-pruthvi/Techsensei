@@ -28,8 +28,8 @@ const Learn: React.FC = () => {
         duration: '4 weeks'
       });
       setRoadmap(result);
-    } catch (err: any) {
-      setError(err.message || 'Failed to generate roadmap');
+    } catch (err: unknown) {
+      setError((err as Error).message || 'Failed to generate roadmap');
     } finally {
       setLoading(false);
     }

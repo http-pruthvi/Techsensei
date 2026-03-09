@@ -1,3 +1,4 @@
+
 import { initializeApp } from 'firebase/app';
 import { getAuth, connectAuthEmulator } from 'firebase/auth';
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
@@ -24,11 +25,11 @@ export const functions = getFunctions(app);
 // Connect to emulators if enabled in environment
 // Connect to emulators if enabled in environment
 // Prevent multiple connections in HMR
-if (import.meta.env.VITE_USE_EMULATORS === 'true' && !(globalThis as any)._emulatorsConnected) {
+if (import.meta.env.VITE_USE_EMULATORS === 'true' && !(globalThis as unknown as Record<string, boolean>)._emulatorsConnected) {
     console.log('Connecting to Firebase Emulators...');
     connectAuthEmulator(auth, 'http://127.0.0.1:9100');
     connectFirestoreEmulator(db, '127.0.0.1', 8085);
     connectStorageEmulator(storage, '127.0.0.1', 9199);
     connectFunctionsEmulator(functions, '127.0.0.1', 5001);
-    (globalThis as any)._emulatorsConnected = true;
+    (globalThis as unknown as Record<string, boolean>)._emulatorsConnected = true;
 }

@@ -1,16 +1,31 @@
-import { httpsCallable } from 'firebase/functions';
-import { functions } from '../lib/firebase';
+import { auth } from '../lib/firebase';
 import type { ExplanationRequest, ExplanationResponse } from '../types';
+
+const getAuthHeaders = async () => {
+    const user = auth.currentUser;
+    if (!user) throw new Error('User not authenticated');
+    const token = await user.getIdToken();
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    };
+};
 
 export const requestExplanation = async (request: ExplanationRequest): Promise<ExplanationResponse> => {
     try {
-        const generateExplanation = httpsCallable<ExplanationRequest, ExplanationResponse>(
-            functions,
-            'generateExplanation'
-        );
+        const headers = await getAuthHeaders();
+        const response = await fetch('/api/explanation', {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({ action: 'generate', ...request })
+        });
 
-        const response = await generateExplanation(request);
-        return response.data;
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to generate explanation');
+        }
+
+        return await response.json();
     } catch (error) {
         console.error('Error requesting explanation:', error);
         throw error;

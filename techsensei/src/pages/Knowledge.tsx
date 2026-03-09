@@ -14,6 +14,7 @@ const Knowledge: React.FC = () => {
     // Initial load
     useEffect(() => {
         handleSearch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleSearch = async (e?: React.FormEvent) => {

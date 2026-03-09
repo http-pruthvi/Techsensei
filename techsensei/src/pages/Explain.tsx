@@ -24,9 +24,9 @@ const Explain: React.FC = () => {
                 userId: user.id
             });
             setResponse(result);
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
-            setError(err.message || 'Failed to generate explanation. Please try again.');
+            setError((err as Error).message || 'Failed to generate explanation. Please try again.');
         } finally {
             setLoading(false);
         }

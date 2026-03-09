@@ -26,8 +26,8 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ onSucces
       await resetPassword(email);
       setSuccess(true);
       onSuccess?.();
-    } catch (err: any) {
-      setError(err.message || 'Failed to send reset email');
+    } catch (err: unknown) {
+      setError((err as Error).message || 'Failed to send reset email');
     } finally {
       setIsLoading(false);
     }
@@ -42,19 +42,19 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ onSucces
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          
+
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
             Check your email
           </h2>
-          
+
           <p className="text-gray-600 dark:text-gray-400">
             We've sent a password reset link to <strong>{email}</strong>
           </p>
-          
+
           <p className="text-sm text-gray-500 dark:text-gray-400">
             Didn't receive the email? Check your spam folder or try again.
           </p>
-          
+
           <div className="space-y-3">
             <Button
               variant="primary"
@@ -67,7 +67,7 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({ onSucces
             >
               Try Again
             </Button>
-            
+
             <Link to="/login">
               <Button variant="outline" size="lg" className="w-full">
                 Back to Sign In

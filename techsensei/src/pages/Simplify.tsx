@@ -18,9 +18,9 @@ const Simplify: React.FC = () => {
         try {
             const response = await simplifyText({ text, level });
             setResult(response);
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
-            setError(err.message || 'Failed to simplify text. Please try again.');
+            setError((err as Error).message || 'Failed to simplify text. Please try again.');
         } finally {
             setLoading(false);
         }

@@ -292,7 +292,19 @@ const convertFirebaseUser = async (firebaseUser: FirebaseUser): Promise<User | n
     };
   } catch (error) {
     console.error('Error converting Firebase user:', error);
-    return null;
+    // If Firestore fails (e.g. offline, permission denied), we should NOT return null
+    // Returning null will cause the app to think the user is logged out and redirect to /login
+    // Instead, we return a fallback user object so the user can at least access the app
+    return {
+      id: firebaseUser.uid,
+      email: firebaseUser.email || '',
+      username: firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'User',
+      profile: createDefaultProfile(),
+      preferences: createDefaultPreferences(),
+      progress: createDefaultProgress(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
   }
 };
 

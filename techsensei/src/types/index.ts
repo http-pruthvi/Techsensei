@@ -178,7 +178,7 @@ export interface LearningSession {
 export interface SessionActivity {
   type: string;
   timestamp: Date;
-  data: any;
+  data: unknown;
 }
 
 export interface SessionSummary {
@@ -363,7 +363,7 @@ export interface AppState {
   setUser: (user: User | null) => void;
   setTheme: (theme: ThemePreference) => void;
   toggleSidebar: () => void;
-  setCurrentView: (view: string) => void;
+  setCurrentView: (view: 'dashboard' | 'learn' | 'analyze' | 'knowledge' | 'profile') => void;
   startLearningSession: (roadmap: LearningRoadmap) => void;
   updateProgress: (stepIndex: number) => void;
   searchKnowledge: (query: string) => Promise<void>;
@@ -374,7 +374,7 @@ export interface AppState {
 export interface AppError {
   code: string;
   message: string;
-  details?: any;
+  details?: unknown;
   timestamp: Date;
 }
 
@@ -420,6 +420,6 @@ export interface CardProps {
 export interface Challenge {
   title: string;
   description: string;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
+  difficulty: LearningLevel;
   xpReward: number;
 }

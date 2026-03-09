@@ -1,5 +1,4 @@
-import { httpsCallable } from 'firebase/functions';
-import { functions } from '../lib/firebase';
+import { auth } from '../lib/firebase';
 
 export interface RepoAnalysisResult {
     overview: string;
@@ -12,18 +11,31 @@ export interface RepoAnalysisResult {
     recommendations: string[];
 }
 
-interface AnalyzeRepoRequest {
-    repoUrl: string;
-}
+const getAuthHeaders = async () => {
+    const user = auth.currentUser;
+    if (!user) throw new Error('User not authenticated');
+    const token = await user.getIdToken();
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    };
+};
 
 export const analyzeRepository = async (repoUrl: string): Promise<RepoAnalysisResult> => {
     try {
-        const analyze = httpsCallable<AnalyzeRepoRequest, RepoAnalysisResult>(
-            functions,
-            'analyzeRepository'
-        );
-        const result = await analyze({ repoUrl });
-        return result.data;
+        const headers = await getAuthHeaders();
+        const response = await fetch('/api/analysis', {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({ repoUrl })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to analyze repository');
+        }
+
+        return await response.json();
     } catch (error) {
         console.error('Error analyzing repo:', error);
         throw error;

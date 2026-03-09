@@ -108,8 +108,8 @@ const Profile: React.FC = () => {
                                 <div key={idx} className="p-3 border border-gray-100 dark:border-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                                     <div className="flex justify-between items-start">
                                         <h4 className="font-medium text-gray-900 dark:text-gray-200">{challenge.title}</h4>
-                                        <span className={`text-xs px-2 py-0.5 rounded-full ${challenge.difficulty === 'Easy' ? 'bg-green-100 text-green-700' :
-                                            challenge.difficulty === 'Medium' ? 'bg-yellow-100 text-yellow-700' :
+                                        <span className={`text-xs px-2 py-0.5 rounded-full ${challenge.difficulty === 'beginner' ? 'bg-green-100 text-green-700' :
+                                            challenge.difficulty === 'intermediate' ? 'bg-yellow-100 text-yellow-700' :
                                                 'bg-red-100 text-red-700'
                                             }`}>
                                             {challenge.difficulty}

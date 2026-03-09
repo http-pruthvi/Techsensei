@@ -94,9 +94,9 @@ export const useAppStore = create<AppStore>()(
           }), false, 'toggleSidebar');
         },
 
-        setCurrentView: (view: string) => {
+        setCurrentView: (view: AppState['currentView']) => {
           set({
-            currentView: view as any
+            currentView: view
           }, false, 'setCurrentView');
         },
 

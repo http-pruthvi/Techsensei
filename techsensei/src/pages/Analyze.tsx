@@ -20,8 +20,8 @@ const Analyze: React.FC = () => {
         try {
             const data = await analyzeRepository(repoUrl);
             setResult(data);
-        } catch (err: any) {
-            setError(err.message || 'Failed to analyze repository');
+        } catch (err: unknown) {
+            setError((err as Error).message || 'Failed to analyze repository');
         } finally {
             setLoading(false);
         }
