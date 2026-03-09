@@ -2,7 +2,7 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 const readline = require('readline');
 
 // Configuration
-const API_KEY = process.env.GOOGLE_AI_API_KEY || "AIzaSyCPFwK_F698N_Uh1ch1vUKnvBMZYJ43D24";
+const API_KEY = process.env.GOOGLE_AI_API_KEY || 
 const MODEL_NAME = "gemini-2.0-flash-lite-001";
 
 const genAI = new GoogleGenerativeAI(API_KEY);
