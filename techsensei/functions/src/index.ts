@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions/v1';
 import * as admin from 'firebase-admin';
+import { FieldValue } from 'firebase-admin/firestore';
 
 // Initialize Firebase Admin
 admin.initializeApp();
@@ -24,8 +25,8 @@ export const onUserCreate = functions.auth.user().onCreate(async (user: function
       contentPreference: 'mixed',
       skillAreas: [],
       goals: [],
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
-      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      createdAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
     },
     preferences: {
       theme: 'system',
@@ -37,7 +38,7 @@ export const onUserCreate = functions.auth.user().onCreate(async (user: function
       streakDays: 0,
       completedRoadmaps: [],
       skillLevels: {},
-      lastActive: admin.firestore.FieldValue.serverTimestamp(),
+      lastActive: FieldValue.serverTimestamp(),
     },
   };
 

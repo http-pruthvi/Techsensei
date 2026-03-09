@@ -1,8 +1,8 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
-import { getFunctions } from 'firebase/functions';
+import { getAuth, connectAuthEmulator } from 'firebase/auth';
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
+import { getStorage, connectStorageEmulator } from 'firebase/storage';
+import { getFunctions, connectFunctionsEmulator } from 'firebase/functions';
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -20,3 +20,15 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const functions = getFunctions(app);
+
+// Connect to emulators if enabled in environment
+// Connect to emulators if enabled in environment
+// Prevent multiple connections in HMR
+if (import.meta.env.VITE_USE_EMULATORS === 'true' && !(globalThis as any)._emulatorsConnected) {
+    console.log('Connecting to Firebase Emulators...');
+    connectAuthEmulator(auth, 'http://127.0.0.1:9100');
+    connectFirestoreEmulator(db, '127.0.0.1', 8085);
+    connectStorageEmulator(storage, '127.0.0.1', 9199);
+    connectFunctionsEmulator(functions, '127.0.0.1', 5001);
+    (globalThis as any)._emulatorsConnected = true;
+}

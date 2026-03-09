@@ -1,111 +1,88 @@
+/* Import Inter Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @import "tailwindcss";
 @config "../tailwind.config.js";
 
 :root {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
+html {
+  scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  @apply bg-gray-50 text-gray-900;
+}
+
+/* Dark mode overrides */
+.dark body {
+  @apply bg-gray-950 text-gray-100;
+}
+
+/* Custom Scrollbar - Minimal & Professional */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #f3f4f6;
-}
-
-.dark ::-webkit-scrollbar-track {
-  background-color: #1f2937;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #d1d5db;
-  border-radius: 9999px;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background-color: #4b5563;
+  @apply bg-gray-300 rounded-full;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #9ca3af;
+  @apply bg-gray-400;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  @apply bg-gray-700;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background-color: #6b7280;
+  @apply bg-gray-600;
 }
 
-/* Custom components */
+/* Utility classes for professional touches */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .glass-panel {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-sm;
+  }
+
+  .dark .glass-panel {
+    @apply bg-gray-900/80 border-gray-800/50;
+  }
+}
+
+/* Component Layer abstractions if strictly needed, mostly moved to React components */
 @layer components {
-  .btn-primary {
-    background-color: #2563eb;
-    color: white;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    transition: background-color 0.2s;
-  }
 
-  .btn-primary:hover {
-    background-color: #1d4ed8;
-  }
-
-  .btn-secondary {
-    background-color: #e2e8f0;
-    color: #1e293b;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    transition: background-color 0.2s;
-  }
-
-  .btn-secondary:hover {
-    background-color: #cbd5e1;
-  }
-
-  .card {
-    background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-    border: 1px solid #e5e7eb;
-    padding: 1.5rem;
-  }
-
-  .dark .card {
-    background-color: #1f2937;
-    border-color: #374151;
-  }
-
+  /* Keeping input-field for legacy support, but prefer React components */
   .input-field {
-    width: 100%;
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
-    background-color: white;
-    color: #111827;
-  }
-
-  .input-field:focus {
-    outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    @apply w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm transition-shadow focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500;
   }
 
   .dark .input-field {
-    background-color: #374151;
-    border-color: #4b5563;
-    color: #f9fafb;
-  }
-
-  .dark .input-field:focus {
-    border-color: #2563eb;
+    @apply bg-gray-900 border-gray-700 text-white focus:border-primary-400;
   }
 }

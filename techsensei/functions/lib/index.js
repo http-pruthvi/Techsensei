@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.analyzeRepository = exports.chatWithSensei = exports.simplifyConcept = exports.generateExplanation = exports.onUserCreate = exports.helloWorld = void 0;
+exports.getRecommendedChallenges = exports.updateUserSkills = exports.getUserProfile = exports.generateDocs = exports.refactorCode = exports.generateCode = exports.saveKnowledgeItem = exports.searchKnowledge = exports.generateRoadmap = exports.analyzeRepository = exports.chatWithSensei = exports.simplifyConcept = exports.generateExplanation = exports.onUserCreate = exports.helloWorld = void 0;
 const functions = require("firebase-functions/v1");
 const admin = require("firebase-admin");
+const firestore_1 = require("firebase-admin/firestore");
 // Initialize Firebase Admin
 admin.initializeApp();
 // Example Cloud Function - Hello World
@@ -23,8 +24,8 @@ exports.onUserCreate = functions.auth.user().onCreate(async (user) => {
             contentPreference: 'mixed',
             skillAreas: [],
             goals: [],
-            createdAt: admin.firestore.FieldValue.serverTimestamp(),
-            updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+            createdAt: firestore_1.FieldValue.serverTimestamp(),
+            updatedAt: firestore_1.FieldValue.serverTimestamp(),
         },
         preferences: {
             theme: 'system',
@@ -36,7 +37,7 @@ exports.onUserCreate = functions.auth.user().onCreate(async (user) => {
             streakDays: 0,
             completedRoadmaps: [],
             skillLevels: {},
-            lastActive: admin.firestore.FieldValue.serverTimestamp(),
+            lastActive: firestore_1.FieldValue.serverTimestamp(),
         },
     };
     try {
@@ -53,28 +54,19 @@ Object.defineProperty(exports, "generateExplanation", { enumerable: true, get: f
 Object.defineProperty(exports, "simplifyConcept", { enumerable: true, get: function () { return explanation_1.simplifyConcept; } });
 var chat_1 = require("./chat");
 Object.defineProperty(exports, "chatWithSensei", { enumerable: true, get: function () { return chat_1.chatWithSensei; } });
-exports.analyzeRepository = functions.https.onCall(async (data, context) => {
-    // TODO: Implement GitHub API and tree-sitter integration
-    if (!(context === null || context === void 0 ? void 0 : context.auth)) {
-        throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated');
-    }
-    const { repoUrl } = data;
-    console.log('Analyzing repo:', repoUrl); // Suppress unused warning
-    // Mock response for now
-    return {
-        analysis: {
-            languages: [
-                { name: 'TypeScript', percentage: 70, files: ['src/main.ts'] },
-                { name: 'JavaScript', percentage: 30, files: ['config.js'] }
-            ],
-            frameworks: ['React', 'Node.js'],
-            architecture: 'Single Page Application',
-            complexity: {
-                score: 6,
-                factors: ['Moderate complexity'],
-                recommendations: ['Add more tests']
-            }
-        }
-    };
-});
+var analysis_1 = require("./analysis");
+Object.defineProperty(exports, "analyzeRepository", { enumerable: true, get: function () { return analysis_1.analyzeRepository; } });
+var roadmap_1 = require("./roadmap");
+Object.defineProperty(exports, "generateRoadmap", { enumerable: true, get: function () { return roadmap_1.generateRoadmap; } });
+var knowledge_1 = require("./knowledge");
+Object.defineProperty(exports, "searchKnowledge", { enumerable: true, get: function () { return knowledge_1.searchKnowledge; } });
+Object.defineProperty(exports, "saveKnowledgeItem", { enumerable: true, get: function () { return knowledge_1.saveKnowledgeItem; } });
+var copilot_1 = require("./copilot");
+Object.defineProperty(exports, "generateCode", { enumerable: true, get: function () { return copilot_1.generateCode; } });
+Object.defineProperty(exports, "refactorCode", { enumerable: true, get: function () { return copilot_1.refactorCode; } });
+Object.defineProperty(exports, "generateDocs", { enumerable: true, get: function () { return copilot_1.generateDocs; } });
+var profile_1 = require("./profile");
+Object.defineProperty(exports, "getUserProfile", { enumerable: true, get: function () { return profile_1.getUserProfile; } });
+Object.defineProperty(exports, "updateUserSkills", { enumerable: true, get: function () { return profile_1.updateUserSkills; } });
+Object.defineProperty(exports, "getRecommendedChallenges", { enumerable: true, get: function () { return profile_1.getRecommendedChallenges; } });
 //# sourceMappingURL=index.js.map

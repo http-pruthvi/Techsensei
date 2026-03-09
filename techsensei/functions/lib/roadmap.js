@@ -1,29 +1,26 @@
-import * as functions from 'firebase-functions/v1';
-import { GoogleGenerativeAI } from '@google/generative-ai';
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.generateRoadmap = void 0;
+const functions = require("firebase-functions/v1");
+const generative_ai_1 = require("@google/generative-ai");
 const getGenAI = () => {
     const apiKey = process.env.GOOGLE_AI_API_KEY;
     if (!apiKey) {
         throw new Error('GOOGLE_AI_API_KEY is not set');
     }
-    return new GoogleGenerativeAI(apiKey);
+    return new generative_ai_1.GoogleGenerativeAI(apiKey);
 };
-
-export const generateRoadmap = functions.https.onCall(async (data: any, context: functions.https.CallableContext) => {
-    if (!context?.auth) {
+exports.generateRoadmap = functions.https.onCall(async (data, context) => {
+    if (!(context === null || context === void 0 ? void 0 : context.auth)) {
         throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated');
     }
-
     const { topic, level, goal, duration } = data;
-
     if (!topic || !level) {
         throw new functions.https.HttpsError('invalid-argument', 'Topic and level are required');
     }
-
     try {
         const genAI = getGenAI();
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
         const prompt = `
       Create a detailed learning roadmap for "${topic}".
       Target Level: ${level}
@@ -49,27 +46,18 @@ export const generateRoadmap = functions.https.onCall(async (data: any, context:
       
       Ensure the JSON is valid and strictly follows the schema. Do not include markdown formatting like \`\`\`json.
     `;
-
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text = response.text();
         // Clean up any potential markdown formatting
         const jsonString = text.replace(/```json\n|\n```/g, '').trim();
-
         const roadmapData = JSON.parse(jsonString);
-
         // Add metadata
-        return {
-            ...roadmapData,
-            createdAt: new Date().toISOString(),
-            topic,
-            level,
-            totalSteps: roadmapData.steps.length
-        };
-
-    } catch (error: any) {
+        return Object.assign(Object.assign({}, roadmapData), { createdAt: new Date().toISOString(), topic,
+            level, totalSteps: roadmapData.steps.length });
+    }
+    catch (error) {
         console.error('Error generating roadmap:', error);
-
         // Mock response for testing/errors
         if (process.env.FUNCTIONS_EMULATOR) {
             return {
@@ -102,9 +90,7 @@ export const generateRoadmap = functions.https.onCall(async (data: any, context:
                 totalSteps: 2
             };
         }
-
         console.error('GENERATE ROADMAP ERROR:', error);
-
         // Ensure we handle the error even if not in emulator
         if (process.env.FUNCTIONS_EMULATOR) {
             console.log('Returning MOCK response due to error in Emulator');
@@ -138,7 +124,7 @@ export const generateRoadmap = functions.https.onCall(async (data: any, context:
                 totalSteps: 2
             };
         }
-
         throw new functions.https.HttpsError('internal', `Failed to generate roadmap: ${error.message}`);
     }
 });
+//# sourceMappingURL=roadmap.js.map

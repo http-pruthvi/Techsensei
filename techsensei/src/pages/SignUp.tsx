@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SignUpForm } from '../components/auth';
+import { Logo } from '../components/ui';
 
 export const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -13,11 +14,14 @@ export const SignUp: React.FC = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-blue-600 dark:text-blue-400">
-            TechSensei
+          <div className="flex justify-center mb-4">
+            <Logo size="xl" showText={false} />
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Create an account
           </h1>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            Your AI-powered learning companion
+            Start your AI-powered learning journey today
           </p>
         </div>
       </div>

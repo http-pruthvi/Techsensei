@@ -1,11 +1,11 @@
 import React from 'react';
 import { Card, Button } from '../components/ui';
-import { 
-  BookOpen, 
-  Code, 
-  Brain, 
-  TrendingUp, 
-  Clock, 
+import {
+  BookOpen,
+  Code,
+  Brain,
+  TrendingUp,
+  Clock,
   Target,
   ChevronRight
 } from 'lucide-react';
@@ -75,7 +75,7 @@ const Dashboard: React.FC = () => {
             Welcome to TechSensei
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-            Your AI-powered learning companion for mastering technology. 
+            Your AI-powered learning companion for mastering technology.
             Get personalized explanations, analyze codebases, and build skills faster.
           </p>
           <Button variant="primary" size="lg">
@@ -106,135 +106,165 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Welcome Section */}
-      <div className="bg-gradient-to-r from-primary-600 to-primary-700 rounded-lg p-6 text-white">
-        <h1 className="text-2xl font-bold mb-2">
-          Welcome back, {user?.profile.displayName}!
-        </h1>
-        <p className="opacity-90">
-          Ready to continue your learning journey? Let's build something amazing today.
-        </p>
+    <div className="space-y-8 animate-fade-in max-w-7xl mx-auto">
+      {/* Welcome Section - Clean & Professional */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-200 dark:border-gray-800 pb-6">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Dashboard
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
+            Welcome back, <span className="font-medium text-gray-900 dark:text-gray-200">{user?.profile.displayName}</span>. Here's your daily overview.
+          </p>
+        </div>
+        <div className="flex gap-3">
+          <Button variant="outline" size="sm" onClick={() => console.log('View settings')}>
+            Settings
+          </Button>
+        </div>
       </div>
 
-      {/* Stats */}
+      {/* Stats - Refined Grid */}
       <div className="grid md:grid-cols-3 gap-6">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <Card key={index}>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                    {stat.value} <span className="text-sm font-normal">{stat.unit}</span>
-                  </p>
-                </div>
-                <Icon size={24} className={stat.color} />
+            <Card key={index} className="flex items-center p-5 border-l-4 border-l-primary-500">
+              <div className="p-3 bg-primary-50 dark:bg-primary-900/20 rounded-lg mr-4">
+                <Icon size={24} className="text-primary-600 dark:text-primary-400" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{stat.label}</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+                  {stat.value} <span className="text-sm font-normal text-gray-400 ml-1">{stat.unit}</span>
+                </p>
               </div>
             </Card>
           );
         })}
       </div>
 
-      {/* Current Activities */}
-      <div className="grid lg:grid-cols-2 gap-6">
-        {/* Current Learning */}
-        <Card title="Continue Learning">
-          {currentRoadmap ? (
-            <div className="space-y-4">
-              <div>
-                <h4 className="font-medium text-gray-900 dark:text-gray-100">
-                  {currentRoadmap.title}
-                </h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {currentRoadmap.description}
-                </p>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  Progress: Step {learningSession?.activities.length || 0} of {currentRoadmap.steps.length}
-                </div>
-                <Button variant="primary" size="sm">
-                  Continue <ChevronRight size={16} />
-                </Button>
-              </div>
+      {/* Main Content Grid */}
+      <div className="grid lg:grid-cols-3 gap-8">
+        {/* Left Column - Active Work */}
+        <div className="lg:col-span-2 space-y-8">
+          {/* Current Learning */}
+          <section>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                <BookOpen size={20} className="text-gray-500" /> Current Learning
+              </h2>
+              <Button variant="ghost" size="sm" className="text-primary-600">View All</Button>
             </div>
-          ) : (
-            <div className="text-center py-8">
-              <BookOpen size={48} className="text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                No active learning roadmap
-              </p>
-              <Button variant="outline" size="sm">
-                Start Learning
-              </Button>
-            </div>
-          )}
-        </Card>
 
-        {/* Recent Analysis */}
-        <Card title="Recent Analysis">
-          {currentRepository ? (
-            <div className="space-y-4">
-              <div>
-                <h4 className="font-medium text-gray-900 dark:text-gray-100">
-                  {currentRepository.repoName}
-                </h4>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  by {currentRepository.owner}
-                </p>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  {currentRepository.analysis.languages.length} languages detected
-                </div>
-                <Button variant="primary" size="sm">
-                  View Analysis <ChevronRight size={16} />
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <div className="text-center py-8">
-              <Code size={48} className="text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                No recent repository analysis
-              </p>
-              <Button variant="outline" size="sm">
-                Analyze Repository
-              </Button>
-            </div>
-          )}
-        </Card>
-      </div>
-
-      {/* Quick Actions */}
-      <Card title="Quick Actions">
-        <div className="grid md:grid-cols-3 gap-4">
-          {quickActions.map((action, index) => {
-            const Icon = action.icon;
-            return (
-              <button
-                key={index}
-                onClick={action.action}
-                className="flex items-center space-x-3 p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-              >
-                <div className={`w-10 h-10 ${action.color} rounded-lg flex items-center justify-center`}>
-                  <Icon size={20} className="text-white" />
-                </div>
-                <div className="text-left">
-                  <div className="font-medium text-gray-900 dark:text-gray-100">
-                    {action.title}
+            <Card className="border-t-4 border-t-indigo-500">
+              {currentRoadmap ? (
+                <div className="space-y-4">
+                  <div>
+                    <div className="flex justify-between items-start">
+                      <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+                        {currentRoadmap.title}
+                      </h4>
+                      <span className="text-xs font-mono bg-indigo-50 text-indigo-700 px-2 py-1 rounded dark:bg-indigo-900/30 dark:text-indigo-300">
+                        PROG: {Math.round((learningSession?.activities.length || 0) / currentRoadmap.steps.length * 100)}%
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
+                      {currentRoadmap.description}
+                    </p>
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    {action.description}
+
+                  {/* Professional Progress Bar */}
+                  <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-2 overflow-hidden">
+                    <div
+                      className="bg-indigo-600 h-2 rounded-full transition-all duration-500"
+                      style={{ width: `${Math.round((learningSession?.activities.length || 0) / currentRoadmap.steps.length * 100)}%` }}
+                    />
+                  </div>
+
+                  <div className="pt-2 flex justify-end">
+                    <Button variant="primary" size="sm" className="shadow-md shadow-indigo-200 dark:shadow-none">
+                      Continue Learning <ChevronRight size={16} />
+                    </Button>
                   </div>
                 </div>
-              </button>
-            );
-          })}
+              ) : (
+                <div className="text-center py-10">
+                  <div className="w-16 h-16 bg-gray-50 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <BookOpen size={32} className="text-gray-400" />
+                  </div>
+                  <h4 className="text-gray-900 dark:text-white font-medium mb-1">No active courses</h4>
+                  <p className="text-gray-500 dark:text-gray-400 text-sm mb-6 max-w-xs mx-auto">
+                    Start a new roadmap to track your progress and master new skills.
+                  </p>
+                  <Button variant="primary" onClick={() => console.log('Start')}>
+                    Browse Roadmaps
+                  </Button>
+                </div>
+              )}
+            </Card>
+          </section>
+
+          {/* Recent Analysis Section - Condensed */}
+          <section>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                <Code size={20} className="text-gray-500" /> Recent Activity
+              </h2>
+            </div>
+            <Card>
+              {currentRepository ? (
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded">
+                      <Code size={20} className="text-gray-600 dark:text-gray-300" />
+                    </div>
+                    <div>
+                      <h5 className="font-medium text-gray-900 dark:text-white">{currentRepository.repoName}</h5>
+                      <p className="text-xs text-gray-500">Analyzed {new Date().toLocaleDateString()}</p>
+                    </div>
+                  </div>
+                  <Button variant="outline" size="sm">View Report</Button>
+                </div>
+              ) : (
+                <div className="text-center py-6 text-sm text-gray-500">No recent repositories analyzed</div>
+              )}
+            </Card>
+          </section>
         </div>
-      </Card>
+
+        {/* Right Column - Quick Actions */}
+        <div className="space-y-8">
+          <section>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
+            <div className="grid gap-3">
+              {quickActions.map((action, index) => {
+                const Icon = action.icon;
+                return (
+                  <button
+                    key={index}
+                    onClick={action.action}
+                    className="group flex items-start space-x-4 p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-primary-300 dark:hover:border-primary-700 hover:shadow-md transition-all duration-200 text-left w-full"
+                  >
+                    <div className={`p-2 rounded-lg ${action.color.replace('bg-', 'bg-opacity-10 text-')}`}>
+                      {/* Map color prop to text color roughly or hardcode for safety given Tailwind restrictions on dynamic class formulation without safelist */}
+                      <Icon size={20} className={index === 0 ? "text-blue-600" : index === 1 ? "text-green-600" : "text-purple-600"} />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-900 dark:text-gray-100 group-hover:text-primary-600 transition-colors">
+                        {action.title}
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        {action.description}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+        </div>
+      </div>
     </div>
   );
 };
